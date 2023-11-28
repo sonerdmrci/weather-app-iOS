@@ -7,15 +7,6 @@
 
 import Foundation
 
-protocol AnyPresenter {
-    var view: AnyView? { get set }
-    var interactor: AnyInteractor? { get set }
-    var router: AnyRouter? { get set }
-    
-    func fetchData()
-    func didReceiveWeatherData(_ weatherModel: WeatherModel)
-}
-
 class HomePresenter: AnyPresenter {
     
     func fetchData() {

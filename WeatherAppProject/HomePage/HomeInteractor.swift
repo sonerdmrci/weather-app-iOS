@@ -8,12 +8,6 @@
 import Foundation
 import Alamofire
 
-protocol AnyInteractor {
-    var presenter: AnyPresenter? { get set }
-    
-    func fetchData()
-}
-
 class HomeInteractor: AnyInteractor {
     var presenter: AnyPresenter?
     

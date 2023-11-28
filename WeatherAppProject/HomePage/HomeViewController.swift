@@ -7,12 +7,6 @@
 
 import UIKit
 
-protocol AnyView {
-    var presenter: AnyPresenter? { get set }
-    
-    func didReceiveWeatherData(_ weatherModel: WeatherModel)
-}
-
 class HomeViewController: UIViewController {
     //MARK: - Viper
     var presenter: AnyPresenter?

@@ -9,12 +9,6 @@ import UIKit
 
 typealias EntryPoint = AnyView & UIViewController
 
-protocol AnyRouter {
-    var entry: EntryPoint? { get }
-    
-    static func createModule() -> AnyRouter
-}
-
 class HomeRouter: AnyRouter {
     var entry: EntryPoint?
     
