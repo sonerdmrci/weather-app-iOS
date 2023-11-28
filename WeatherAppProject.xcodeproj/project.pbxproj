@@ -17,6 +17,9 @@
 		B55E86BD2B15C5EF0069C974 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86BC2B15C5EF0069C974 /* HomeInteractor.swift */; };
 		B55E86BF2B15C6000069C974 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86BE2B15C6000069C974 /* HomeRouter.swift */; };
 		B55E86C12B15C6190069C974 /* HomeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86C02B15C6190069C974 /* HomeProtocols.swift */; };
+		B55E86C42B15CE770069C974 /* WeatherServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86C32B15CE770069C974 /* WeatherServices.swift */; };
+		B55E86C62B15CE860069C974 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86C52B15CE860069C974 /* AppConfig.swift */; };
+		B55E86C92B15CF0E0069C974 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B55E86C82B15CF0E0069C974 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +35,8 @@
 		B55E86BC2B15C5EF0069C974 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		B55E86BE2B15C6000069C974 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		B55E86C02B15C6190069C974 /* HomeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProtocols.swift; sourceTree = "<group>"; };
+		B55E86C32B15CE770069C974 /* WeatherServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServices.swift; sourceTree = "<group>"; };
+		B55E86C52B15CE860069C974 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B55E86C92B15CF0E0069C974 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +70,7 @@
 		B55E86A02B15C4190069C974 /* WeatherAppProject */ = {
 			isa = PBXGroup;
 			children = (
+				B55E86C22B15CE170069C974 /* NetworkManager */,
 				B55E86B52B15C5650069C974 /* HomePage */,
 				B55E86A12B15C4190069C974 /* AppDelegate.swift */,
 				B55E86A32B15C4190069C974 /* SceneDelegate.swift */,
@@ -77,13 +84,13 @@
 		B55E86B52B15C5650069C974 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				B55E86B62B15C5700069C974 /* Cell */,
+				B55E86B72B15C5790069C974 /* Entity */,
 				B55E86A52B15C4190069C974 /* HomeViewController.swift */,
 				B55E86BA2B15C5DE0069C974 /* HomePresenter.swift */,
 				B55E86BC2B15C5EF0069C974 /* HomeInteractor.swift */,
 				B55E86BE2B15C6000069C974 /* HomeRouter.swift */,
 				B55E86C02B15C6190069C974 /* HomeProtocols.swift */,
-				B55E86B72B15C5790069C974 /* Entity */,
-				B55E86B62B15C5700069C974 /* Cell */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -103,6 +110,15 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
+		B55E86C22B15CE170069C974 /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				B55E86C32B15CE770069C974 /* WeatherServices.swift */,
+				B55E86C52B15CE860069C974 /* AppConfig.swift */,
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -119,6 +135,9 @@
 			dependencies = (
 			);
 			name = WeatherAppProject;
+			packageProductDependencies = (
+				B55E86C82B15CF0E0069C974 /* Alamofire */,
+			);
 			productName = WeatherAppProject;
 			productReference = B55E869E2B15C4190069C974 /* WeatherAppProject.app */;
 			productType = "com.apple.product-type.application";
@@ -147,6 +166,9 @@
 				Base,
 			);
 			mainGroup = B55E86952B15C4190069C974;
+			packageReferences = (
+				B55E86C72B15CF0E0069C974 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = B55E869F2B15C4190069C974 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -174,8 +196,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B55E86A62B15C4190069C974 /* HomeViewController.swift in Sources */,
+				B55E86C62B15CE860069C974 /* AppConfig.swift in Sources */,
 				B55E86A22B15C4190069C974 /* AppDelegate.swift in Sources */,
 				B55E86BF2B15C6000069C974 /* HomeRouter.swift in Sources */,
+				B55E86C42B15CE770069C974 /* WeatherServices.swift in Sources */,
 				B55E86B92B15C5960069C974 /* WeatherModel.swift in Sources */,
 				B55E86C12B15C6190069C974 /* HomeProtocols.swift in Sources */,
 				B55E86BD2B15C5EF0069C974 /* HomeInteractor.swift in Sources */,
@@ -388,6 +412,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B55E86C72B15CF0E0069C974 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B55E86C82B15CF0E0069C974 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B55E86C72B15CF0E0069C974 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B55E86962B15C4190069C974 /* Project object */;
 }

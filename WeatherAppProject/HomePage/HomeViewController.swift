@@ -9,6 +9,8 @@ import UIKit
 
 protocol AnyView {
     var presenter: AnyPresenter? { get set }
+    
+    func didReceiveWeatherData(_ weatherModel: WeatherModel)
 }
 
 class HomeViewController: UIViewController {
@@ -20,6 +22,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemRed
+        presenter?.fetchData()
     }
     
     
@@ -29,6 +32,13 @@ class HomeViewController: UIViewController {
 
 //MARK: - AnyView 
 extension HomeViewController: AnyView {
+    
+    func didReceiveWeatherData(_ weatherModel: WeatherModel) {
+        DispatchQueue.main.async {
+            print("----->>> DEBUG: \(weatherModel.list?.count)")
+        }
+    }
+    
     
 }
 
