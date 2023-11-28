@@ -9,19 +9,29 @@
 /* Begin PBXBuildFile section */
 		B55E86A22B15C4190069C974 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86A12B15C4190069C974 /* AppDelegate.swift */; };
 		B55E86A42B15C4190069C974 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86A32B15C4190069C974 /* SceneDelegate.swift */; };
-		B55E86A62B15C4190069C974 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86A52B15C4190069C974 /* ViewController.swift */; };
+		B55E86A62B15C4190069C974 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86A52B15C4190069C974 /* HomeViewController.swift */; };
 		B55E86AB2B15C41A0069C974 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B55E86AA2B15C41A0069C974 /* Assets.xcassets */; };
 		B55E86AE2B15C41A0069C974 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B55E86AC2B15C41A0069C974 /* LaunchScreen.storyboard */; };
+		B55E86B92B15C5960069C974 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86B82B15C5960069C974 /* WeatherModel.swift */; };
+		B55E86BB2B15C5DE0069C974 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86BA2B15C5DE0069C974 /* HomePresenter.swift */; };
+		B55E86BD2B15C5EF0069C974 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86BC2B15C5EF0069C974 /* HomeInteractor.swift */; };
+		B55E86BF2B15C6000069C974 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86BE2B15C6000069C974 /* HomeRouter.swift */; };
+		B55E86C12B15C6190069C974 /* HomeProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86C02B15C6190069C974 /* HomeProtocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B55E869E2B15C4190069C974 /* WeatherAppProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherAppProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B55E86A12B15C4190069C974 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B55E86A32B15C4190069C974 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B55E86A52B15C4190069C974 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B55E86A52B15C4190069C974 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B55E86AA2B15C41A0069C974 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B55E86AD2B15C41A0069C974 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B55E86AF2B15C41A0069C974 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B55E86B82B15C5960069C974 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
+		B55E86BA2B15C5DE0069C974 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
+		B55E86BC2B15C5EF0069C974 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
+		B55E86BE2B15C6000069C974 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		B55E86C02B15C6190069C974 /* HomeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProtocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +64,43 @@
 		B55E86A02B15C4190069C974 /* WeatherAppProject */ = {
 			isa = PBXGroup;
 			children = (
+				B55E86B52B15C5650069C974 /* HomePage */,
 				B55E86A12B15C4190069C974 /* AppDelegate.swift */,
 				B55E86A32B15C4190069C974 /* SceneDelegate.swift */,
-				B55E86A52B15C4190069C974 /* ViewController.swift */,
 				B55E86AA2B15C41A0069C974 /* Assets.xcassets */,
 				B55E86AC2B15C41A0069C974 /* LaunchScreen.storyboard */,
 				B55E86AF2B15C41A0069C974 /* Info.plist */,
 			);
 			path = WeatherAppProject;
+			sourceTree = "<group>";
+		};
+		B55E86B52B15C5650069C974 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				B55E86A52B15C4190069C974 /* HomeViewController.swift */,
+				B55E86BA2B15C5DE0069C974 /* HomePresenter.swift */,
+				B55E86BC2B15C5EF0069C974 /* HomeInteractor.swift */,
+				B55E86BE2B15C6000069C974 /* HomeRouter.swift */,
+				B55E86C02B15C6190069C974 /* HomeProtocols.swift */,
+				B55E86B72B15C5790069C974 /* Entity */,
+				B55E86B62B15C5700069C974 /* Cell */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		B55E86B62B15C5700069C974 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		B55E86B72B15C5790069C974 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				B55E86B82B15C5960069C974 /* WeatherModel.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,8 +173,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B55E86A62B15C4190069C974 /* ViewController.swift in Sources */,
+				B55E86A62B15C4190069C974 /* HomeViewController.swift in Sources */,
 				B55E86A22B15C4190069C974 /* AppDelegate.swift in Sources */,
+				B55E86BF2B15C6000069C974 /* HomeRouter.swift in Sources */,
+				B55E86B92B15C5960069C974 /* WeatherModel.swift in Sources */,
+				B55E86C12B15C6190069C974 /* HomeProtocols.swift in Sources */,
+				B55E86BD2B15C5EF0069C974 /* HomeInteractor.swift in Sources */,
+				B55E86BB2B15C5DE0069C974 /* HomePresenter.swift in Sources */,
 				B55E86A42B15C4190069C974 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
