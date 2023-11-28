@@ -23,6 +23,7 @@
 		B55E86CB2B15D1FA0069C974 /* DetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86CA2B15D1FA0069C974 /* DetailViewCell.swift */; };
 		B55E86CD2B15D2140069C974 /* DaysViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86CC2B15D2140069C974 /* DaysViewCell.swift */; };
 		B55E86D02B15D28E0069C974 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86CF2B15D28E0069C974 /* UIView+Ext.swift */; };
+		B55E86D32B1666B90069C974 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86D22B1666B90069C974 /* UIColor+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		B55E86CA2B15D1FA0069C974 /* DetailViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
 		B55E86CC2B15D2140069C974 /* DaysViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysViewCell.swift; sourceTree = "<group>"; };
 		B55E86CF2B15D28E0069C974 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		B55E86D22B1666B90069C974 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				B55E86CF2B15D28E0069C974 /* UIView+Ext.swift */,
+				B55E86D22B1666B90069C974 /* UIColor+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				B55E86BF2B15C6000069C974 /* HomeRouter.swift in Sources */,
 				B55E86CD2B15D2140069C974 /* DaysViewCell.swift in Sources */,
 				B55E86C42B15CE770069C974 /* WeatherServices.swift in Sources */,
+				B55E86D32B1666B90069C974 /* UIColor+Ext.swift in Sources */,
 				B55E86B92B15C5960069C974 /* WeatherModel.swift in Sources */,
 				B55E86C12B15C6190069C974 /* HomeProtocols.swift in Sources */,
 				B55E86D02B15D28E0069C974 /* UIView+Ext.swift in Sources */,

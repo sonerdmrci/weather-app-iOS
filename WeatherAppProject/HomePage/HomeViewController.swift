@@ -29,13 +29,21 @@ class HomeViewController: UIViewController {
     let dateFormatter = DateFormatter()
     
     
+    
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemCyan
+        view.backgroundColor = UIColor.hex("E5E5E5")
         presenter?.fetchData()
         setupUI()
 //        addTargets() //TODO: Action eklendiginde acilacak
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     
@@ -53,13 +61,18 @@ class HomeViewController: UIViewController {
         view.addSubViewsFromExt(tableView, searchBar) //Ext yazildi birden fazla elemani eklemek icin
         tableView.delegate = self
         tableView.dataSource = self
-        
-        tableView.backgroundColor = .systemCyan
-        searchBar.backgroundColor = .systemCyan
+        searchBar.delegate = self
+        tableView.backgroundColor = UIColor.hex("1D3D8D")
+        searchBar.barTintColor = UIColor.hex("1D3D8D")
+        searchBar.placeholder = "Sehir Ara"
         tableView.register(DaysViewCell.self, forCellReuseIdentifier: DaysViewCell.reuseID)
         tableView.register(DetailViewCell.self, forCellReuseIdentifier: DetailViewCell.reuseID)
         
-        searchBar.anchor(top: view.topAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 30, paddingLeft: 30, paddingRight: 30 )
+        searchBar.anchor(top: view.topAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30 )
+        
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.backgroundColor = UIColor.white
+        }
         
     }
 
@@ -166,10 +179,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
         if indexPath.section == 0 {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: DetailViewCell.reuseID, for: indexPath) as! DetailViewCell
-            cell.backgroundColor = .systemTeal
+            cell.backgroundColor = UIColor.hex("1D3D8D")
+            cell.selectionStyle = .none
             if let firstWeather = dayList.first?.weather?.first,
                let date = dateFormatter.date(from: dayList.first?.dtTxt ?? "") {
 
@@ -188,14 +203,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                     print("Geçersiz tarih formatı veya ikon bulunamadı.")
                 }
             } else {
-                print("Geçersiz tarih formatı")
+                print("Geçersiz tarih formatı detail")
             }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: DaysViewCell.reuseID, for: indexPath) as! DaysViewCell
            
-            cell.backgroundColor = .systemGray4
-            
+            cell.backgroundColor = UIColor.hex("173481")
+            cell.selectionStyle = .none
+
             if let date = dateFormatter.date(from: dayList[indexPath.row].dtTxt ?? "" ),
                
                 let iconImage = getIconImage(for: dayList[indexPath.row]) {
@@ -206,7 +222,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                               icon: iconImage)
                 print(dayName)
             } else {
-                print("Geçersiz tarih formatı")
+                print("Geçersiz tarih formatı day")
             }
             return cell
         }
@@ -221,7 +237,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 0 && indexPath.row == 0 {
+            return 260
+        }
+        return UITableView.automaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //Gunlere tiklaninca ne olsun
     }
+}
+
+extension HomeViewController : UISearchBarDelegate {
+    
 }

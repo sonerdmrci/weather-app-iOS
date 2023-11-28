@@ -29,13 +29,14 @@ class DaysViewCell: UITableViewCell {
     
     func initCell(day: String, temperature: String, icon: UIImage){
         self.dayLabel.text = day
-        self.temperatureLabel.text = "\(temperature) Cº"
+        self.temperatureLabel.text = "\(temperature)ºC"
         self.imageIcon.image = icon
     }
     
     func setupViews() {
         contentView.addSubViewsFromExt(dayLabel, temperatureLabel, imageIcon)
-        
+        self.temperatureLabel.textColor = .white
+        self.dayLabel.textColor = .white
     }
     
     func setupConstraints() {
@@ -51,4 +52,15 @@ class DaysViewCell: UITableViewCell {
         
        
     }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//
+//        // Sağa ve sola boşluk ekleme
+//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30))
+//
+//        // Köşe yuvarlama (borderRadius)
+//        contentView.layer.cornerRadius = 30
+//        contentView.layer.masksToBounds = true
+//        contentView.layer.borderWidth = 1  // İsterseniz kenar çizgisi de ekleyebilirsiniz
+//    }
 }

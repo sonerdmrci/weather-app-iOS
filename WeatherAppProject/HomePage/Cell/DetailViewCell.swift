@@ -29,7 +29,7 @@ class DetailViewCell: UITableViewCell {
     
     func initCell(day: String, temperature: String, description: String, icon: UIImage){
         self.dayLabel.text = day
-        self.temperatureLabel.text = "\(temperature)Cº"
+        self.temperatureLabel.text = "\(temperature)º"
         self.descriptionLabel.text = description
         self.imageIcon.image = icon
     }
@@ -37,31 +37,29 @@ class DetailViewCell: UITableViewCell {
     func setupViews() {
         contentView.addSubViewsFromExt(dayLabel, temperatureLabel, descriptionLabel, imageIcon)
         self.dayLabel.font = UIFont.systemFont(ofSize: 40)
-        self.temperatureLabel.font = UIFont.systemFont(ofSize: 80)
+        self.temperatureLabel.font = UIFont.boldSystemFont(ofSize: 60)
         self.descriptionLabel.font = UIFont.systemFont(ofSize: 20)
         self.dayLabel.textColor = .white
         self.temperatureLabel.textColor = .white
-        self.descriptionLabel.textColor = .green
+        self.descriptionLabel.textColor = .white
     }
     
     func setupConstraints() {
+                
+        imageIcon.anchor(top: contentView.topAnchor,
+                         paddingTop: 50,
+                         width: 140,
+                         height: 140)
+        imageIcon.centerX()
         
-        let standartPadding: CGFloat = 30
+        temperatureLabel.anchor(top: imageIcon.bottomAnchor)
+        temperatureLabel.centerX()
         
-        dayLabel.anchor(top: contentView.topAnchor, paddingTop: 16)
-        dayLabel.centerX()
-        
-        imageIcon.anchor(top: dayLabel.bottomAnchor, left: contentView.leftAnchor, paddingTop: 16, paddingLeft: 30, width: 140, height: 140)
-        
-        descriptionLabel.anchor(top: imageIcon.bottomAnchor,left: contentView.leftAnchor, bottom: contentView.bottomAnchor, paddingTop: 16, paddingLeft: 60, paddingBottom: standartPadding)
-        
-        temperatureLabel.anchor(right: contentView.rightAnchor,
-                                paddingRight: standartPadding)
-        temperatureLabel.centerY()
-        
+        descriptionLabel.anchor(top: temperatureLabel.bottomAnchor)
+        descriptionLabel.centerX()
         
         
-       
+        
     }
 }
 
