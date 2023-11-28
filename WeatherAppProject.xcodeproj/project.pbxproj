@@ -20,6 +20,9 @@
 		B55E86C42B15CE770069C974 /* WeatherServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86C32B15CE770069C974 /* WeatherServices.swift */; };
 		B55E86C62B15CE860069C974 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86C52B15CE860069C974 /* AppConfig.swift */; };
 		B55E86C92B15CF0E0069C974 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B55E86C82B15CF0E0069C974 /* Alamofire */; };
+		B55E86CB2B15D1FA0069C974 /* DetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86CA2B15D1FA0069C974 /* DetailViewCell.swift */; };
+		B55E86CD2B15D2140069C974 /* DaysViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86CC2B15D2140069C974 /* DaysViewCell.swift */; };
+		B55E86D02B15D28E0069C974 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55E86CF2B15D28E0069C974 /* UIView+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +40,9 @@
 		B55E86C02B15C6190069C974 /* HomeProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeProtocols.swift; sourceTree = "<group>"; };
 		B55E86C32B15CE770069C974 /* WeatherServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServices.swift; sourceTree = "<group>"; };
 		B55E86C52B15CE860069C974 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		B55E86CA2B15D1FA0069C974 /* DetailViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
+		B55E86CC2B15D2140069C974 /* DaysViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysViewCell.swift; sourceTree = "<group>"; };
+		B55E86CF2B15D28E0069C974 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +76,7 @@
 		B55E86A02B15C4190069C974 /* WeatherAppProject */ = {
 			isa = PBXGroup;
 			children = (
+				B55E86CE2B15D2730069C974 /* Extensions */,
 				B55E86C22B15CE170069C974 /* NetworkManager */,
 				B55E86B52B15C5650069C974 /* HomePage */,
 				B55E86A12B15C4190069C974 /* AppDelegate.swift */,
@@ -98,6 +105,8 @@
 		B55E86B62B15C5700069C974 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				B55E86CA2B15D1FA0069C974 /* DetailViewCell.swift */,
+				B55E86CC2B15D2140069C974 /* DaysViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -117,6 +126,14 @@
 				B55E86C52B15CE860069C974 /* AppConfig.swift */,
 			);
 			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		B55E86CE2B15D2730069C974 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B55E86CF2B15D28E0069C974 /* UIView+Ext.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,10 +215,13 @@
 				B55E86A62B15C4190069C974 /* HomeViewController.swift in Sources */,
 				B55E86C62B15CE860069C974 /* AppConfig.swift in Sources */,
 				B55E86A22B15C4190069C974 /* AppDelegate.swift in Sources */,
+				B55E86CB2B15D1FA0069C974 /* DetailViewCell.swift in Sources */,
 				B55E86BF2B15C6000069C974 /* HomeRouter.swift in Sources */,
+				B55E86CD2B15D2140069C974 /* DaysViewCell.swift in Sources */,
 				B55E86C42B15CE770069C974 /* WeatherServices.swift in Sources */,
 				B55E86B92B15C5960069C974 /* WeatherModel.swift in Sources */,
 				B55E86C12B15C6190069C974 /* HomeProtocols.swift in Sources */,
+				B55E86D02B15D28E0069C974 /* UIView+Ext.swift in Sources */,
 				B55E86BD2B15C5EF0069C974 /* HomeInteractor.swift in Sources */,
 				B55E86BB2B15C5DE0069C974 /* HomePresenter.swift in Sources */,
 				B55E86A42B15C4190069C974 /* SceneDelegate.swift in Sources */,
