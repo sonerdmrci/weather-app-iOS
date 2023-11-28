@@ -5,7 +5,19 @@
 //  Created by Soner Demirci on 28.11.2023.
 //
 
-import Foundation
+import UIKit
+
+enum IconEnum: String, Codable {
+    case clear = "01n" //acik   10n, 10d hafif yagmur
+    case clearNight = "01d" //acik
+    case closed = "04n" //04n kapali
+    case partlyCloud = "04d" //Parcali bulutlu
+    case snow = "13d"     // 13d kar
+    case lightRain = "10n"
+    case rain = "10d"     //yagmurlu
+    // Diğer ikonları da ekleyin
+}
+
 
 // MARK: - WeatherModel
 class WeatherModel: Codable {
@@ -155,10 +167,27 @@ enum Pod: String, Codable {
 }
 
 // MARK: - Weather
+//class Weather: Codable {
+//    let id: Int?
+//    let main: MainEnum?
+//    let description, icon: String?
+//
+//    init(id: Int?, main: MainEnum?, description: String?, icon: String?) {
+//        self.id = id
+//        self.main = main
+//        self.description = description
+//        self.icon = icon
+//    }
+//}
+
 class Weather: Codable {
     let id: Int?
     let main: MainEnum?
     let description, icon: String?
+
+    var iconEnum: IconEnum? {
+        return IconEnum(rawValue: icon ?? "")
+    }
 
     init(id: Int?, main: MainEnum?, description: String?, icon: String?) {
         self.id = id
@@ -187,4 +216,24 @@ class Wind: Codable {
         self.gust = gust
     }
 }
+
+//extension Weather {
+//    func getIconImage() -> UIImage? {
+//        guard let iconEnum = iconEnum else {
+//            return nil
+//        }
+//
+//        switch iconEnum {
+//        case .clear:
+//            return UIImage(named: "sun")
+//        case .clearNight:
+//            return UIImage(named: "wind")
+//        case .fewCloudsDay:
+//            return UIImage(named: "rain-sun")
+//        case .fewCloudsNight:
+//            return UIImage(named: "strom")
+//        // Diğer durumlar için de resimleri ekleyin
+//        }
+//    }
+//}
 

@@ -13,6 +13,7 @@ class DaysViewCell: UITableViewCell {
     
     var dayLabel = UILabel()
     var temperatureLabel = UILabel()
+    var imageIcon = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -26,38 +27,28 @@ class DaysViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initCell(day: String, temperature: String){
-        dayLabel.text = day
-        temperatureLabel.text = temperature
+    func initCell(day: String, temperature: String, icon: UIImage){
+        self.dayLabel.text = day
+        self.temperatureLabel.text = "\(temperature) Cº"
+        self.imageIcon.image = icon
     }
     
     func setupViews() {
-        // Gerekli view'leri oluştur
-        contentView.addSubViewsFromExt(dayLabel, temperatureLabel)
+        contentView.addSubViewsFromExt(dayLabel, temperatureLabel, imageIcon)
         
-        // Gerekirse view'leri özelleştir
-        // Örneğin, text color, font vb.
     }
     
     func setupConstraints() {
-        // Constraint'leri oluştur ve view'lere ekle
-        dayLabel.translatesAutoresizingMaskIntoConstraints = false
-        temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        // Örnek constraint'ler:
-        NSLayoutConstraint.activate([
-            dayLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            dayLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            
-            temperatureLabel.topAnchor.constraint(equalTo: dayLabel.bottomAnchor, constant: 8),
-            temperatureLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            temperatureLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-        ])
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        
+        let standartPadding: CGFloat = 30
+        dayLabel.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, paddingTop: standartPadding, paddingLeft: standartPadding)
+        
+        temperatureLabel.anchor(top: contentView.topAnchor, bottom: contentView.bottomAnchor,right: contentView.rightAnchor, paddingTop: standartPadding, paddingBottom: standartPadding, paddingRight: standartPadding)
+        
+        imageIcon.configSize(height: 60, width: 60)
+        imageIcon.centerX()
+        imageIcon.centerY()
+        
+       
     }
 }
