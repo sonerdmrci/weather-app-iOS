@@ -11,6 +11,7 @@ enum IconEnum: String, Codable {
     case clear = "01n" //acik   10n, 10d hafif yagmur
     case clearNight = "01d" //acik
     case closed = "04n" //04n kapali
+    case partlyCloudMin = "03d" //parcali az bulutlu
     case partlyCloud = "04d" //Parcali bulutlu
     case snow = "13d"     // 13d kar
     case lightRain = "10n"

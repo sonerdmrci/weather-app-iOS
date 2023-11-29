@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HomeViewController: UIViewController {
     //MARK: - Viper
@@ -16,20 +17,27 @@ class HomeViewController: UIViewController {
     var searchBar = UISearchBar()
     
     //MARK: - Properties
+    let locationManager = CLLocationManager()
     let apiKey = AppConfig.openWeatherMapApiKey
     var fiveDayTemperatures: List?
     var dayList = [List]()
     var days = [List]()
     let dateFormatter = DateFormatter()
-    
-    
-    
-    
+
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.hex("E5E5E5")
-        presenter?.fetchData()
+        // Konum izni isteme
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
+        // Konum güncellemelerini başlatma
+        DispatchQueue.main.async {
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            self.locationManager.startUpdatingLocation()
+        }
+        //presenter?.fetchData()
         setupUI()
 //        addTargets() //TODO: Action eklendiginde acilacak
         
@@ -118,6 +126,8 @@ class HomeViewController: UIViewController {
             return UIImage(named: "heavy-rain")
         case .closed:
             return UIImage(named: "cloudy1")
+        case .partlyCloudMin:
+            return UIImage(named: "cloudy")
         case .partlyCloud:
             return UIImage(named: "cloudy")
         case .snow:
@@ -133,6 +143,16 @@ class HomeViewController: UIViewController {
         }
     }
     
+//    func requestLocationPermission() {
+//        locationManager.delegate = self
+//        locationManager.requestWhenInUseAuthorization()
+//    }
+//
+//    func getCurrentLocation() {
+//        locationManager.delegate = self
+//        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+//        locationManager.startUpdatingLocation()
+//    }
     //MARK: - Actions
     @objc func toDetailClicked(){
         print("detay ekrani")
@@ -245,4 +265,24 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController : UISearchBarDelegate {
     
+}
+
+
+//MARK: - CLLocationManagerDelegate
+extension HomeViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            guard let location = locations.last else { return }
+            locationManager.stopUpdatingLocation()
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            let apiKey = AppConfig.openWeatherMapApiKey
+            let path = "&lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=metric"
+            print(path)
+            self.presenter?.fetchData(path)
+            
+        }
+
+        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+            print("Konum alınamadı: \(error.localizedDescription)")
+        }
 }

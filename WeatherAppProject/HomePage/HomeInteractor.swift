@@ -14,10 +14,10 @@ class HomeInteractor: AnyInteractor {
     let apiKey = AppConfig.openWeatherMapApiKey
     let baseURL = AppURL.baseUrl
     
-    func fetchData() {
+    func fetchData(_ path: String) {
         print("istekk")
-        let apiUrl = "\(baseURL)&lat=44.34&lon=10.99&appid=\(apiKey)&units=metric"
-        
+//        let apiUrl = "\(baseURL)&lat=44.34&lon=10.99&appid=\(apiKey)&units=metric"
+        let apiUrl = "\(baseURL)\(path)"
         AF.request(apiUrl, method: .get).responseData { response in
             switch response.result {
             case .success(let data):

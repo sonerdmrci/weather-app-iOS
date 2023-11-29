@@ -13,7 +13,7 @@ protocol AnyPresenter {
     var interactor: AnyInteractor? { get set }
     var router: AnyRouter? { get set }
     
-    func fetchData()
+    func fetchData(_ path: String)
     func didReceiveWeatherData(_ weatherModel: WeatherModel)
 }
 
@@ -21,7 +21,7 @@ protocol AnyPresenter {
 protocol AnyInteractor {
     var presenter: AnyPresenter? { get set }
     
-    func fetchData()
+    func fetchData(_ path: String)
 }
 
 //MARK: View

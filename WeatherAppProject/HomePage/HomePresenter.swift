@@ -9,8 +9,8 @@ import Foundation
 
 class HomePresenter: AnyPresenter {
     
-    func fetchData() {
-        interactor?.fetchData()
+    func fetchData(_ path: String) {
+        interactor?.fetchData(path)
     }
     
     func didReceiveWeatherData(_ weatherModel: WeatherModel) {
