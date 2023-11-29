@@ -14,6 +14,7 @@ class HomeViewController: UIViewController {
     
     //MARK: - Properties
     lazy var tableView =  UITableView()
+    var searchTableView = UITableView()
     var searchBar = UISearchBar()
     
     //MARK: - Properties
@@ -23,59 +24,88 @@ class HomeViewController: UIViewController {
     var dayList = [List]()
     var days = [List]()
     let dateFormatter = DateFormatter()
+    var suggestions = [String]()
+    
+    let turkishCities = [
+        "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
+        "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır",
+        "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkâri", "Hatay",
+        "Isparta", "İçel(Mersin)", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri",
+        "Kırıkkale", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin",
+        "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ",
+        "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman",
+        "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
+    ]
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.hex("E5E5E5")
-        // Konum izni isteme
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        view.backgroundColor = UIColor.hex("1D3D8D")
         
-        // Konum güncellemelerini başlatma
-        DispatchQueue.main.async {
-            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            self.locationManager.startUpdatingLocation()
-        }
-        //presenter?.fetchData()
+        
         setupUI()
 //        addTargets() //TODO: Action eklendiginde acilacak
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
+    func setupSearchBar(){
+        searchBar.delegate = self
+        searchBar.placeholder = "Sehir Ara"
+        navigationItem.titleView = searchBar
+
+        if #available(iOS 13.0, *) {
+            searchBar.searchTextField.backgroundColor = UIColor.white
+        }
+    }
+    
+    func setupLocation(){
+        // Konum izni isteme
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        DispatchQueue.main.async {
+            self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            self.locationManager.startUpdatingLocation()
+        }
     }
     
     
     //MARK: - Helpers
     func setupUI(){
-        configureTableView()
+        setupSearchBar()
+        configureTableView(tableView, tag: 1)
+        configureTableView(searchTableView, tag: 2)
+        configureTableView1()
+        configureSearchTableView()
     }
     
     func addTargets() {
 //        detailButton.addTarget(self, action: #selector(toDetailClicked), for: .touchUpInside)
     }
     
-    func configureTableView() {
+    func configureTableView1() {
         tableView.frame = view.bounds
-        view.addSubViewsFromExt(tableView, searchBar) //Ext yazildi birden fazla elemani eklemek icin
-        tableView.delegate = self
-        tableView.dataSource = self
-        searchBar.delegate = self
         tableView.backgroundColor = UIColor.hex("1D3D8D")
-        searchBar.barTintColor = UIColor.hex("1D3D8D")
-        searchBar.placeholder = "Sehir Ara"
+        
         tableView.register(DaysViewCell.self, forCellReuseIdentifier: DaysViewCell.reuseID)
         tableView.register(DetailViewCell.self, forCellReuseIdentifier: DetailViewCell.reuseID)
         
-        searchBar.anchor(top: view.topAnchor, left: view.leftAnchor,right: view.rightAnchor, paddingTop: 40, paddingLeft: 30, paddingRight: 30 )
-        
-        if #available(iOS 13.0, *) {
-            searchBar.searchTextField.backgroundColor = UIColor.white
-        }
-        
+    }
+    
+    func configureSearchTableView(){
+        searchTableView.backgroundColor = .red
+        searchTableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                               left: view.safeAreaLayoutGuide.leftAnchor,
+                               right: view.safeAreaLayoutGuide.rightAnchor,
+                               paddingLeft: 30,
+                               paddingRight: 30,
+                               height: 100)
+    }
+    
+    func configureTableView(_ tableView: UITableView, tag: Int) {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.tag = tag
+        view.addSubview(tableView)
     }
 
     //5 gunluk veri
@@ -142,17 +172,7 @@ class HomeViewController: UIViewController {
             return UIImage(named: "disaster")
         }
     }
-    
-//    func requestLocationPermission() {
-//        locationManager.delegate = self
-//        locationManager.requestWhenInUseAuthorization()
-//    }
-//
-//    func getCurrentLocation() {
-//        locationManager.delegate = self
-//        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-//        locationManager.startUpdatingLocation()
-//    }
+
     //MARK: - Actions
     @objc func toDetailClicked(){
         print("detay ekrani")
@@ -181,90 +201,126 @@ extension HomeViewController: AnyView {
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        if tableView.tag == 1 {
+            return 2
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
+        
+        if tableView.tag == 1 {
+            if section == 0 {
+                return 1
+            } else {
+                return dayList.count
+            }
         } else {
-            return dayList.count
-        }
+            return suggestions.count
+       }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    
-        if indexPath.section == 0 {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: DetailViewCell.reuseID, for: indexPath) as! DetailViewCell
-            cell.backgroundColor = UIColor.hex("1D3D8D")
-            cell.selectionStyle = .none
-            if let firstWeather = dayList.first?.weather?.first,
-               let date = dateFormatter.date(from: dayList.first?.dtTxt ?? "") {
+        
+        if tableView.tag == 1 {
+            if indexPath.section == 0 {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: DetailViewCell.reuseID, for: indexPath) as! DetailViewCell
+                cell.backgroundColor = UIColor.hex("1D3D8D")
+                cell.selectionStyle = .none
+                if let firstWeather = dayList.first?.weather?.first,
+                   let date = dateFormatter.date(from: dayList.first?.dtTxt ?? "") {
 
-                let dayName = getDayName(from: date)
-                print("day : \(dayName)")
-                // İstenilen ikonu almak için IconEnum'u kullanabilirsiniz
-                if let iconImage = getIconImage(for: dayList.first!) {
+                    let dayName = getDayName(from: date)
+                    print("day : \(dayName)")
+                    if let iconImage = getIconImage(for: dayList.first!) {
 
+                        cell.initCell(day: dayName,
+                                      temperature: String(Int(round(dayList.first?.main?.temp ?? 0))),
+                                      description: firstWeather.description ?? "",
+                                      icon: iconImage)
+
+                        print(dayName)
+                    } else {
+                        print("Geçersiz tarih formatı veya ikon bulunamadı.")
+                    }
+                } else {
+                    print("Geçersiz tarih formatı detail")
+                }
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: DaysViewCell.reuseID, for: indexPath) as! DaysViewCell
+               
+                cell.backgroundColor = UIColor.hex("173481")
+                cell.selectionStyle = .none
+
+                if let date = dateFormatter.date(from: dayList[indexPath.row].dtTxt ?? "" ),
+                   
+                    let iconImage = getIconImage(for: dayList[indexPath.row]) {
+                    
+                    let dayName = getDayName(from: date)
                     cell.initCell(day: dayName,
-                                  temperature: String(Int(round(dayList.first?.main?.temp ?? 0))),
-                                  description: firstWeather.description ?? "",
+                                  temperature: String(Int(round(dayList[indexPath.row].main?.temp ?? 0.0))),
                                   icon: iconImage)
-
                     print(dayName)
                 } else {
-                    print("Geçersiz tarih formatı veya ikon bulunamadı.")
+                    print("Geçersiz tarih formatı day")
                 }
-            } else {
-                print("Geçersiz tarih formatı detail")
+                return cell
             }
-            return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: DaysViewCell.reuseID, for: indexPath) as! DaysViewCell
-           
-            cell.backgroundColor = UIColor.hex("173481")
-            cell.selectionStyle = .none
-
-            if let date = dateFormatter.date(from: dayList[indexPath.row].dtTxt ?? "" ),
-               
-                let iconImage = getIconImage(for: dayList[indexPath.row]) {
-                
-                let dayName = getDayName(from: date)
-                cell.initCell(day: dayName,
-                              temperature: String(Int(round(dayList[indexPath.row].main?.temp ?? 0.0))),
-                              icon: iconImage)
-                print(dayName)
-            } else {
-                print("Geçersiz tarih formatı day")
-            }
+            let cell = UITableViewCell()
+            cell.textLabel?.text = suggestions[indexPath.row]
             return cell
         }
     }
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return ""
-        } else {
-            return "   "
+        if tableView.tag == 1 {
+            if section == 0 {
+                return ""
+            } else {
+                return "   "
+            }
         }
+        return ""
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 && indexPath.row == 0 {
-            return 260
+        if tableView.tag == 1 {
+            if indexPath.section == 0 && indexPath.row == 0 {
+                return 260
+            }
         }
         return UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //Gunlere tiklaninca ne olsun
-    }
 }
 
-extension HomeViewController : UISearchBarDelegate {
+extension HomeViewController : UISearchBarDelegate, UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        
+    }
     
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.count > 2 {
+            suggestions = getSuggestions(for: searchText)
+            self.searchTableView.reloadData()
+            print(suggestions)
+        }
+        else if searchText.count == 0 {
+            suggestions.removeAll()
+            searchTableView.reloadData()
+        }
+    }
+
+    func getSuggestions(for searchText: String) -> [String] {
+        let lowercasedSearchText = searchText.lowercased()
+        return turkishCities.filter { $0.lowercased().contains(lowercasedSearchText) }
+    }
+    
+   
 }
 
 
