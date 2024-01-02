@@ -37,7 +37,4 @@ class HomeInteractor: AnyInteractor {
         }
     }
     
-    
-    
-    
 }

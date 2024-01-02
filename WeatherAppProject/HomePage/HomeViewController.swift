@@ -42,8 +42,8 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.hex("1D3D8D")
         
-        
         setupUI()
+        setupLocation()
 //        addTargets() //TODO: Action eklendiginde acilacak
         
     }
@@ -52,6 +52,8 @@ class HomeViewController: UIViewController {
         searchBar.delegate = self
         searchBar.placeholder = "Sehir Ara"
         navigationItem.titleView = searchBar
+        
+        searchTableView.isHidden = true
 
         if #available(iOS 13.0, *) {
             searchBar.searchTextField.backgroundColor = UIColor.white
@@ -166,8 +168,6 @@ class HomeViewController: UIViewController {
             return UIImage(named: "rain-sun")
         case .rain:
             return UIImage(named: "strom") //siddetli
-            
-            //heavy-rain = yagmurlu, 
         default:
             return UIImage(named: "disaster")
         }
