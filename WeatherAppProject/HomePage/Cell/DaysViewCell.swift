@@ -15,17 +15,9 @@ class DaysViewCell: UITableViewCell {
     var temperatureLabel = UILabel()
     var imageIcon = UIImageView()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    func initCell(day: String, temperature: String, icon: UIImage){
         setupViews()
         setupConstraints()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func initCell(day: String, temperature: String, icon: UIImage){
         self.dayLabel.text = day
         self.temperatureLabel.text = "\(temperature)ºC"
         self.imageIcon.image = icon
