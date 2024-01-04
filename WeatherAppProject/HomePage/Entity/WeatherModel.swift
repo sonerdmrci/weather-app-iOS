@@ -8,15 +8,23 @@
 import UIKit
 
 enum IconEnum: String, Codable {
-    case clear = "01n" //acik   10n, 10d hafif yagmur
-    case clearNight = "01d" //acik
-    case closed = "04n" //04n kapali
-    case partlyCloudMin = "03d" //parcali az bulutlu
-    case partlyCloud = "04d" //Parcali bulutlu
-    case snow = "13d"     // 13d kar
-    case lightRain = "10n"
-    case rain = "10d"     //yagmurlu
-    // Diğer ikonları da ekleyin
+    case clear = "01n" // Açık (gece)
+    case clearNight = "01d" // Açık (gündüz)
+    case partlyCloudyDay = "02d" // Parçalı Bulutlu (gündüz)
+    case partlyCloudyNight = "02n" // Parçalı Bulutlu (gece)
+    case cloudyDay = "03d" // Bulutlu (gündüz)
+    case cloudyNight = "03n" // Bulutlu (gece)
+    case overcast = "04d" // Kapalı (gündüz)
+    case overcastNight = "04n" // Kapalı (gece)
+    case lightRainDay = "10d" // Hafif Yağmurlu (gündüz)
+    case lightRainNight = "10n" // Hafif Yağmurlu (gece)
+    case snowDay = "13d" // Karlı (gündüz)
+    case snowNight = "13n" // Karlı (gece)
+    case foggyDay = "50d" // Sisli (gündüz)
+    case foggyNight = "50n" // Sisli (gece)
+    case thunderstormDay = "11d" // Gökgürültülü Fırtına (gündüz)
+    case thunderstormNight = "11n" // Gökgürültülü Fırtına (gece)
+    
 }
 
 
@@ -168,18 +176,6 @@ enum Pod: String, Codable {
 }
 
 // MARK: - Weather
-//class Weather: Codable {
-//    let id: Int?
-//    let main: MainEnum?
-//    let description, icon: String?
-//
-//    init(id: Int?, main: MainEnum?, description: String?, icon: String?) {
-//        self.id = id
-//        self.main = main
-//        self.description = description
-//        self.icon = icon
-//    }
-//}
 
 class Weather: Codable {
     let id: Int?
@@ -218,23 +214,4 @@ class Wind: Codable {
     }
 }
 
-//extension Weather {
-//    func getIconImage() -> UIImage? {
-//        guard let iconEnum = iconEnum else {
-//            return nil
-//        }
-//
-//        switch iconEnum {
-//        case .clear:
-//            return UIImage(named: "sun")
-//        case .clearNight:
-//            return UIImage(named: "wind")
-//        case .fewCloudsDay:
-//            return UIImage(named: "rain-sun")
-//        case .fewCloudsNight:
-//            return UIImage(named: "strom")
-//        // Diğer durumlar için de resimleri ekleyin
-//        }
-//    }
-//}
 

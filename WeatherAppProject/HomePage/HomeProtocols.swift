@@ -13,8 +13,12 @@ protocol AnyPresenter {
     var interactor: AnyInteractor? { get set }
     var router: AnyRouter? { get set }
     
+    func navigate(router: Routes)
     func fetchData(_ path: String)
+    func getCitiesData()
+    
     func didReceiveWeatherData(_ weatherModel: WeatherModel)
+    func didCitiesData(_ cityResponse: CitiesModel)
 }
 
 //MARK: Interactor
@@ -22,19 +26,23 @@ protocol AnyInteractor {
     var presenter: AnyPresenter? { get set }
     
     func fetchData(_ path: String)
+    func getCitiesData()
 }
 
 //MARK: View
 protocol AnyView {
     var presenter: AnyPresenter? { get set }
-    
     func didReceiveWeatherData(_ weatherModel: WeatherModel)
+    func didCitiesData(_ cityResponse: CitiesModel)
 }
 
 //MARK: Router
+enum Routes {
+    case bottomSheet(citiesList: [CitiesModel.City])
+}
+
 protocol AnyRouter {
-    var entry: EntryPoint? { get }
+    func navigate(router: Routes)
     
-    static func createModule() -> AnyRouter
 }
 

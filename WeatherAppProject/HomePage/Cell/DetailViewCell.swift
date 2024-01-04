@@ -16,18 +16,9 @@ class DetailViewCell: UITableViewCell {
     var descriptionLabel = UILabel()
     var temperatureLabel = UILabel()
     
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    func initCell(day: String, temperature: String, description: String, icon: UIImage){
         setupViews()
         setupConstraints()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func initCell(day: String, temperature: String, description: String, icon: UIImage){
         self.dayLabel.text = day
         self.temperatureLabel.text = "\(temperature)º"
         self.descriptionLabel.text = description
@@ -36,9 +27,9 @@ class DetailViewCell: UITableViewCell {
     
     func setupViews() {
         contentView.addSubViewsFromExt(dayLabel, temperatureLabel, descriptionLabel, imageIcon)
-        self.dayLabel.font = UIFont.systemFont(ofSize: 40)
-        self.temperatureLabel.font = UIFont.boldSystemFont(ofSize: 60)
-        self.descriptionLabel.font = UIFont.systemFont(ofSize: 20)
+        self.dayLabel.font = .systemFont(ofSize: 40)
+        self.temperatureLabel.font = .boldSystemFont(ofSize: 60)
+        self.descriptionLabel.font = .systemFont(ofSize: 20)
         self.dayLabel.textColor = .white
         self.temperatureLabel.textColor = .white
         self.descriptionLabel.textColor = .white
@@ -47,7 +38,7 @@ class DetailViewCell: UITableViewCell {
     func setupConstraints() {
                 
         imageIcon.anchor(top: contentView.topAnchor,
-                         paddingTop: 50,
+                         paddingTop: 20,
                          width: 140,
                          height: 140)
         imageIcon.centerX()
@@ -57,9 +48,6 @@ class DetailViewCell: UITableViewCell {
         
         descriptionLabel.anchor(top: temperatureLabel.bottomAnchor)
         descriptionLabel.centerX()
-        
-        
-        
     }
 }
 

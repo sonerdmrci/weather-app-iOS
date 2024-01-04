@@ -2,11 +2,10 @@
 //  UIColor+Ext.swift
 //  WeatherAppProject
 //
-//  Created by Soner Demirci on 28.11.2023.
+//  Created by Soner Demirci on 4.01.2024.
 //
 
 import UIKit
-
 
 extension UIColor {
     static func hex(_ hex: String, alpha: CGFloat = 1.0) -> UIColor {
@@ -16,7 +15,7 @@ extension UIColor {
         var rgb: UInt64 = 0
 
         guard Scanner(string: sanitizedHex).scanHexInt64(&rgb) else {
-            return UIColor.black // Varsayılan bir renk döndürebilirsiniz
+            return UIColor.black // Varsayılan bir renk 
         }
 
         return UIColor(

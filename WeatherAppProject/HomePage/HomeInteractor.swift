@@ -15,8 +15,6 @@ class HomeInteractor: AnyInteractor {
     let baseURL = AppURL.baseUrl
     
     func fetchData(_ path: String) {
-        print("istekk")
-//        let apiUrl = "\(baseURL)&lat=44.34&lon=10.99&appid=\(apiKey)&units=metric"
         let apiUrl = "\(baseURL)\(path)"
         AF.request(apiUrl, method: .get).responseData { response in
             switch response.result {
@@ -24,7 +22,6 @@ class HomeInteractor: AnyInteractor {
                 do {
                     let decoder = JSONDecoder()
                     let weatherModel = try decoder.decode(WeatherModel.self, from: data)
-                    // Başarılı bir şekilde veri alındığında, bu veriyi presenter'a iletiyoruz.
                     self.presenter?.didReceiveWeatherData(weatherModel)
                 } catch {
                     // JSON parse hatası
@@ -37,4 +34,16 @@ class HomeInteractor: AnyInteractor {
         }
     }
     
+    func getCitiesData(){
+        if let jsonData = CityJSONData.jsonString.data(using: .utf8) {
+            do {
+                
+                let citiesModel = try JSONDecoder().decode(CitiesModel.self, from: jsonData)
+                presenter?.didCitiesData(citiesModel)
+                
+            } catch {
+                print("JSON dönüşüm hatası: \(error.localizedDescription)")
+            }
+        }
+    }
 }

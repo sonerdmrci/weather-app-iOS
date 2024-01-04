@@ -11,11 +11,11 @@ import CoreLocation
 class HomeViewController: UIViewController {
     //MARK: - Viper
     var presenter: AnyPresenter?
+    var entry: EntryPoint?
     
     //MARK: - Properties
     lazy var tableView =  UITableView()
-    var searchTableView = UITableView()
-    var searchBar = UISearchBar()
+    var navigationButton = UIButton(type: .system)
     
     //MARK: - Properties
     let locationManager = CLLocationManager()
@@ -24,18 +24,9 @@ class HomeViewController: UIViewController {
     var dayList = [List]()
     var days = [List]()
     let dateFormatter = DateFormatter()
-    var suggestions = [String]()
     
-    let turkishCities = [
-        "Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin", "Aydın", "Balıkesir",
-        "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır",
-        "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkâri", "Hatay",
-        "Isparta", "İçel(Mersin)", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri",
-        "Kırıkkale", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin",
-        "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ",
-        "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak", "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman",
-        "Kırıkkale", "Batman", "Şırnak", "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"
-    ]
+    var citiesList = [CitiesModel.City]()
+    var SEARCH_BUTTON_TITLE = "   ŞEHİR"
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -43,21 +34,10 @@ class HomeViewController: UIViewController {
         view.backgroundColor = UIColor.hex("1D3D8D")
         
         setupUI()
-        setupLocation()
+//        setupLocation()
+        self.presenter?.getCitiesData()
 //        addTargets() //TODO: Action eklendiginde acilacak
         
-    }
-    
-    func setupSearchBar(){
-        searchBar.delegate = self
-        searchBar.placeholder = "Sehir Ara"
-        navigationItem.titleView = searchBar
-        
-        searchTableView.isHidden = true
-
-        if #available(iOS 13.0, *) {
-            searchBar.searchTextField.backgroundColor = UIColor.white
-        }
     }
     
     func setupLocation(){
@@ -70,47 +50,43 @@ class HomeViewController: UIViewController {
         }
     }
     
-    
     //MARK: - Helpers
     func setupUI(){
-        setupSearchBar()
-        configureTableView(tableView, tag: 1)
-        configureTableView(searchTableView, tag: 2)
-        configureTableView1()
-        configureSearchTableView()
+        configureTableView()
+        configureButton()
     }
     
-    func addTargets() {
-//        detailButton.addTarget(self, action: #selector(toDetailClicked), for: .touchUpInside)
+    func configureButton(){
+        navigationButton.setTitle(SEARCH_BUTTON_TITLE, for: .normal)
+        navigationButton.titleLabel?.font = .systemFont(ofSize: 20)
+        navigationButton.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        navigationItem.titleView = navigationButton
+        navigationButton.configSize(height: 30, width: 200)
+        navigationButton.addTarget(self, action: #selector(navigationButtonTappend), for: .touchUpInside)
     }
     
-    func configureTableView1() {
+    func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         tableView.frame = view.bounds
         tableView.backgroundColor = UIColor.hex("1D3D8D")
         
         tableView.register(DaysViewCell.self, forCellReuseIdentifier: DaysViewCell.reuseID)
         tableView.register(DetailViewCell.self, forCellReuseIdentifier: DetailViewCell.reuseID)
         
-    }
-    
-    func configureSearchTableView(){
-        searchTableView.backgroundColor = .red
-        searchTableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                               left: view.safeAreaLayoutGuide.leftAnchor,
-                               right: view.safeAreaLayoutGuide.rightAnchor,
-                               paddingLeft: 30,
-                               paddingRight: 30,
-                               height: 100)
-    }
-    
-    func configureTableView(_ tableView: UITableView, tag: Int) {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tag = tag
         view.addSubview(tableView)
+        
+    }
+    
+    private func configureSheet(){
+        presenter?.navigate(router: .bottomSheet(citiesList: self.citiesList))
     }
 
-    //5 gunluk veri
+    func addTargets() {
+//        detailButton.addTarget(self, action: #selector(toDetailClicked), for: .touchUpInside)
+    }
+    
     func getWeatherForNext5Days(from startDate: Date, in weatherModel: WeatherModel) -> [List] {
         guard let allWeatherData = weatherModel.list else {
             return []
@@ -133,10 +109,8 @@ class HomeViewController: UIViewController {
             
             currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
         }
-        print("return \(days.count)")
         return days
     }
-    
     
     //Tarihi gün adına çevirme
     func getDayName(from date: Date) -> String {
@@ -152,22 +126,20 @@ class HomeViewController: UIViewController {
         }
 
         switch iconEnum {
-        case .clear:
+        case .clear, .clearNight:
             return UIImage(named: "sun")
-        case .clearNight:
+        case .foggyDay, .foggyNight:
             return UIImage(named: "heavy-rain")
-        case .closed:
+        case .overcastNight, .overcast:
             return UIImage(named: "cloudy1")
-        case .partlyCloudMin:
+        case .partlyCloudyDay, .partlyCloudyNight:
             return UIImage(named: "cloudy")
-        case .partlyCloud:
-            return UIImage(named: "cloudy")
-        case .snow:
+        case .snowDay, .snowNight :
             return UIImage(named: "snow")
-        case .lightRain:
+        case .lightRainDay,.lightRainNight:
             return UIImage(named: "rain-sun")
-        case .rain:
-            return UIImage(named: "strom") //siddetli
+        case .thunderstormNight, .thunderstormDay:
+            return UIImage(named: "wind")
         default:
             return UIImage(named: "disaster")
         }
@@ -179,150 +151,113 @@ class HomeViewController: UIViewController {
         //TODO: Detay ekrani yapildiginda aktif edilecek
 //        navigationController?.pushViewController(DetailViewController(), animated: true)
     }
+    
+    @objc func navigationButtonTappend(){
+        print("button tappend")
+        configureSheet()
+    }
 }
 
 
 //MARK: - AnyView 
 extension HomeViewController: AnyView {
     
+    func didCitiesData(_ cityResponse: CitiesModel) {
+        let cities = cityResponse.cities
+        self.citiesList = cities
+    }
+    
     func didReceiveWeatherData(_ weatherModel: WeatherModel) {
+        self.days.removeAll()
+        self.dayList.removeAll()
         DispatchQueue.main.async {
             let startDate = Date()
+            print(startDate)
             let select5days = self.getWeatherForNext5Days(from: startDate, in: weatherModel)
             print("----->>> DEBUG: \(select5days)")
             select5days.forEach { data in
                 print("Tarih: \(data.dtTxt ?? ""), Sicaklik: \(data.main?.temp ?? 0.0)")
             }
             self.dayList = select5days
-            self.tableView.reloadData()         }
+            self.tableView.reloadData()
+            
+        }
     }
 }
 
-
+//MARK: - TableView
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        if tableView.tag == 1 {
-            return 2
-        }
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if tableView.tag == 1 {
-            if section == 0 {
-                return 1
-            } else {
-                return dayList.count
-            }
-        } else {
-            return suggestions.count
-       }
+        return section == 0 ? 1: dayList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if tableView.tag == 1 {
-            if indexPath.section == 0 {
-                
-                let cell = tableView.dequeueReusableCell(withIdentifier: DetailViewCell.reuseID, for: indexPath) as! DetailViewCell
-                cell.backgroundColor = UIColor.hex("1D3D8D")
-                cell.selectionStyle = .none
-                if let firstWeather = dayList.first?.weather?.first,
-                   let date = dateFormatter.date(from: dayList.first?.dtTxt ?? "") {
-
-                    let dayName = getDayName(from: date)
-                    print("day : \(dayName)")
-                    if let iconImage = getIconImage(for: dayList.first!) {
-
-                        cell.initCell(day: dayName,
-                                      temperature: String(Int(round(dayList.first?.main?.temp ?? 0))),
-                                      description: firstWeather.description ?? "",
-                                      icon: iconImage)
-
-                        print(dayName)
-                    } else {
-                        print("Geçersiz tarih formatı veya ikon bulunamadı.")
-                    }
-                } else {
-                    print("Geçersiz tarih formatı detail")
-                }
-                return cell
+        if indexPath.section == 0 {
+                return configureDetailViewCell(for: indexPath)
             } else {
-                let cell = tableView.dequeueReusableCell(withIdentifier: DaysViewCell.reuseID, for: indexPath) as! DaysViewCell
-               
-                cell.backgroundColor = UIColor.hex("173481")
-                cell.selectionStyle = .none
-
-                if let date = dateFormatter.date(from: dayList[indexPath.row].dtTxt ?? "" ),
-                   
-                    let iconImage = getIconImage(for: dayList[indexPath.row]) {
-                    
-                    let dayName = getDayName(from: date)
-                    cell.initCell(day: dayName,
-                                  temperature: String(Int(round(dayList[indexPath.row].main?.temp ?? 0.0))),
-                                  icon: iconImage)
-                    print(dayName)
-                } else {
-                    print("Geçersiz tarih formatı day")
-                }
-                return cell
+                return configureDaysViewCell(for: indexPath)
             }
-        } else {
-            let cell = UITableViewCell()
-            cell.textLabel?.text = suggestions[indexPath.row]
-            return cell
-        }
     }
     
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if tableView.tag == 1 {
-            if section == 0 {
-                return ""
-            } else {
-                return "   "
-            }
-        }
-        return ""
+        return section == 0 ? "" : "    "
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView.tag == 1 {
-            if indexPath.section == 0 && indexPath.row == 0 {
-                return 260
+        return (indexPath.section == 0 && indexPath.row == 0) ? 260 : 70
+    }
+
+    private func configureDetailViewCell(for indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: DetailViewCell.reuseID, for: indexPath) as! DetailViewCell
+        configureCommonCellProperties(cell, indexPath: indexPath)
+
+        if let firstWeather = dayList.first?.weather?.first,
+           let date = dateFormatter.date(from: dayList.first?.dtTxt ?? "") {
+            let dayName = getDayName(from: date)
+
+            if let iconImage = getIconImage(for: dayList.first!) {
+                cell.initCell(day: dayName,
+                              temperature: String(Int(round(dayList.first?.main?.temp ?? 0))),
+                              description: firstWeather.description ?? "",
+                              icon: iconImage)
+            } else {
+                print("Geçersiz tarih formatı veya ikon bulunamadı.")
             }
+        } else {
+            print("Geçersiz tarih formatı detail")
         }
-        return UITableView.automaticDimension
+
+        return cell
     }
-    
+
+    private func configureDaysViewCell(for indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: DaysViewCell.reuseID, for: indexPath) as! DaysViewCell
+        configureCommonCellProperties(cell, indexPath: indexPath)
+
+        if let date = dateFormatter.date(from: dayList[indexPath.row].dtTxt ?? "" ),
+           let iconImage = getIconImage(for: dayList[indexPath.row]) {
+            let dayName = getDayName(from: date)
+            cell.initCell(day: dayName,
+                          temperature: String(Int(round(dayList[indexPath.row].main?.temp ?? 0.0))),
+                          icon: iconImage)
+            print(dayName)
+        } else {
+            print("Geçersiz tarih formatı day")
+        }
+
+        return cell
+    }
+
+    private func configureCommonCellProperties(_ cell: UITableViewCell, indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.hex(indexPath.section == 0 ? "1D3D8D" : "173481")
+        cell.selectionStyle = .none
+    }
 }
-
-extension HomeViewController : UISearchBarDelegate, UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.count > 2 {
-            suggestions = getSuggestions(for: searchText)
-            self.searchTableView.reloadData()
-            print(suggestions)
-        }
-        else if searchText.count == 0 {
-            suggestions.removeAll()
-            searchTableView.reloadData()
-        }
-    }
-
-    func getSuggestions(for searchText: String) -> [String] {
-        let lowercasedSearchText = searchText.lowercased()
-        return turkishCities.filter { $0.lowercased().contains(lowercasedSearchText) }
-    }
-    
-   
-}
-
 
 //MARK: - CLLocationManagerDelegate
 extension HomeViewController: CLLocationManagerDelegate {
@@ -341,4 +276,13 @@ extension HomeViewController: CLLocationManagerDelegate {
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
             print("Konum alınamadı: \(error.localizedDescription)")
         }
+}
+
+//MARK: - SelectedCityProtocol
+extension HomeViewController: SelectedCityProtocol {
+    func fetchSelectedCtyWeather(city: CitiesModel.City) {
+        navigationButton.setTitle("   \(city.name)", for: .normal)
+        let path = "&lat=\(city.latitude)&lon=\(city.longitude)&appid=\(apiKey)&units=metric"
+        presenter?.fetchData(path)
+    }
 }

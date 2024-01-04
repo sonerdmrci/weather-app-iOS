@@ -17,8 +17,6 @@ class DaysViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        // Cell oluşturulduğunda çağrılan metot
         setupViews()
         setupConstraints()
     }
@@ -44,23 +42,10 @@ class DaysViewCell: UITableViewCell {
         let standartPadding: CGFloat = 30
         dayLabel.anchor(top: contentView.topAnchor, left: contentView.leftAnchor, paddingTop: standartPadding, paddingLeft: standartPadding)
         
-        temperatureLabel.anchor(top: contentView.topAnchor, bottom: contentView.bottomAnchor,right: contentView.rightAnchor, paddingTop: standartPadding, paddingBottom: standartPadding, paddingRight: standartPadding)
+        temperatureLabel.anchor(top: contentView.topAnchor, bottom: contentView.bottomAnchor,right: contentView.rightAnchor, paddingTop: 20, paddingRight: standartPadding)
         
         imageIcon.configSize(height: 60, width: 60)
         imageIcon.centerX()
         imageIcon.centerY()
-        
-       
     }
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//
-//        // Sağa ve sola boşluk ekleme
-//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30))
-//
-//        // Köşe yuvarlama (borderRadius)
-//        contentView.layer.cornerRadius = 30
-//        contentView.layer.masksToBounds = true
-//        contentView.layer.borderWidth = 1  // İsterseniz kenar çizgisi de ekleyebilirsiniz
-//    }
 }
