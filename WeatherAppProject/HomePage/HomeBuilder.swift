@@ -7,7 +7,7 @@
 
 import UIKit
 
-typealias EntryPoint = AnyView & UIViewController
+// typealias EntryPoint = AnyView & UIViewController
 
 class HomeBuilder {
     static func createModule() -> HomeViewController {

@@ -11,7 +11,7 @@ import CoreLocation
 class HomeViewController: UIViewController {
     //MARK: - Viper
     var presenter: AnyPresenter?
-    var entry: EntryPoint?
+//    var entry: EntryPoint?
     
     //MARK: - Properties
     lazy var tableView =  UITableView()
@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = UIColor.hex("1D3D8D")
         
         setupUI()
-//        setupLocation()
+        setupLocation()
         self.presenter?.getCitiesData()
 //        addTargets() //TODO: Action eklendiginde acilacak
         
